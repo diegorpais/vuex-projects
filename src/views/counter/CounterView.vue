@@ -2,37 +2,40 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <h2 class="mb-4">Contador: {{ count }}</h2>
-        <button class="btn btn-primary mr-2" @click="increment">
-          Incrementar
+        <h2 class="mb-4">Contador: {{ getCount }}</h2>
+        <button class="btn btn-danger mr-2" @click="decrementValue">
+          Decrementar
         </button>
-        <button class="btn btn-danger" @click="decrement">Decrementar</button>
+        <button class="btn btn-primary" @click="increment">Incrementar</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapGetters, mapMutations } from 'vuex';
+
 export default {
   name: 'CounterView',
 
   components: {},
 
   data() {
-    return {
-      count: 0,
-    };
+    return {};
   },
 
-  computed: {},
+  computed: {
+    ...mapState('counter', ['count']),
+
+    ...mapGetters('counter', ['getCount']),
+  },
 
   methods: {
-    increment() {
-      this.count++;
-    },
+    ...mapMutations('counter', ['increment', 'decrement']),
 
-    decrement() {
-      this.count--;
+    decrementValue() {
+      if (this.count <= 0) return;
+      this.decrement();
     },
   },
 };
